@@ -1,5 +1,11 @@
 'use strict';
 
-let x = 'Hello World!';
+import { Image } from './models/Image';
+import { ImagesView } from './views/ImagesView';
+import { AddImageView } from './views/AddImageView';
 
-console.log(x);
+let imagesView = new ImagesView();
+let addImageView = new AddImageView();
+
+imagesView.render();
+addImageView.render();
