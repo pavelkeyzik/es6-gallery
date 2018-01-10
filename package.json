@@ -1,0 +1,19 @@
+{
+  "name": "es6-gallery",
+  "version": "0.0.1",
+  "description": "",
+  "main": "js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "babel js/index.js --watch --presets es2015 --out-file dist/bundle.js"
+  },
+  "keywords": [
+    "gallery"
+  ],
+  "author": "Pavel Keyzik",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
