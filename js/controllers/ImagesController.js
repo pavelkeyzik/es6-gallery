@@ -1,15 +1,21 @@
-import { ImagesView } from '../views/ImagesView';
-
 export class ImagesController {
 
+    constructor(view, model) {
+        this.view = view;
+        this.model = model;
+    }
+
     start() {
-        let images = JSON.parse(localStorage.getItem('images'));
-        let imageView = new ImagesView();
-        if(images) imageView.render(images);
+        let images = this.model.getImages();
+        this.update(images);
     }
 
     getImages() {
-        return JSON.parse(localStorage.getItem('images'));
+        return this.model.getImages();
+    }
+
+    update(images) {
+        this.view.render(images);
     }
     
 }

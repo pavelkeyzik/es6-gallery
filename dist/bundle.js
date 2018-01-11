@@ -71,19 +71,29 @@ var main =
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Image__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_ImagesView__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_AddImageView__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_ImagesView__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_AddImageView__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controllers_ImagesController__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__controllers_AddImageController__ = __webpack_require__(5);
 
 
 
 
 
 
-let imagesView = new __WEBPACK_IMPORTED_MODULE_1__views_ImagesView__["a" /* ImagesView */]();
-let addImageView = new __WEBPACK_IMPORTED_MODULE_2__views_AddImageView__["a" /* AddImageView */]();
 
-imagesView.render();
-addImageView.render();
+
+
+
+const imagesView = new __WEBPACK_IMPORTED_MODULE_1__views_ImagesView__["a" /* ImagesView */]();
+const addImageView = new __WEBPACK_IMPORTED_MODULE_2__views_AddImageView__["a" /* AddImageView */]();
+const imageModel = new __WEBPACK_IMPORTED_MODULE_0__models_Image__["a" /* Image */]();
+
+let imagesCtrl = new __WEBPACK_IMPORTED_MODULE_3__controllers_ImagesController__["a" /* ImagesController */](imagesView, imageModel);
+let addImageCtrl = new __WEBPACK_IMPORTED_MODULE_4__controllers_AddImageController__["a" /* AddImageController */](addImageView, imageModel);
+
+imagesCtrl.start();
+addImageCtrl.start();
 
 /***/ }),
 /* 1 */
@@ -94,10 +104,21 @@ class Image {
 
     constructor(link) {
         this.link = link;
+        this.images = JSON.parse(localStorage.getItem('images')) || [];
+    }
+
+    addImage(data, cb) {
+        this.images.push(data);
+        localStorage.setItem('images', JSON.stringify(this.images));
+        cb(true);
+    }
+
+    getImages() {
+        return this.images;
     }
 
 }
-/* unused harmony export Image */
+/* harmony export (immutable) */ __webpack_exports__["a"] = Image;
 
 
 /***/ }),
@@ -105,55 +126,17 @@ class Image {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_ImagesView__ = __webpack_require__(3);
-
-
-class ImagesController {
-
-    start() {
-        let images = JSON.parse(localStorage.getItem('images'));
-        let imageView = new __WEBPACK_IMPORTED_MODULE_0__views_ImagesView__["a" /* ImagesView */]();
-        if (images) imageView.render(images);
-    }
-
-    getImages() {
-        return JSON.parse(localStorage.getItem('images'));
-    }
-
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = ImagesController;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controllers_ImagesController__ = __webpack_require__(2);
-
-
 class ImagesView {
 
-    constructor() {
-        this.controller = new __WEBPACK_IMPORTED_MODULE_0__controllers_ImagesController__["a" /* ImagesController */]();
-    }
+    render(images) {
+        let block = document.getElementById('imagesView');
+        let templateString = '';
 
-    render() {
-        let self = this;
-
-        let data = self.controller.getImages();
-
-        if (data) {
-
-            let block = document.getElementById('imagesView');
-            let templateString = '';
-
-            for (let item of data) {
-                templateString += `<li>${item.link}</li>`;
-            }
-
-            block.innerHTML = templateString;
+        for (let item of images) {
+            templateString += `<li>${item.link}</li>`;
         }
+
+        block.innerHTML = templateString;
     }
 
 }
@@ -161,51 +144,11 @@ class ImagesView {
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_AddImageView__ = __webpack_require__(5);
-
-
-class AddImageController {
-
-    start() {
-        let imageView = new __WEBPACK_IMPORTED_MODULE_0__views_AddImageView__["a" /* AddImageView */]();
-        imageView.render();
-    }
-
-    add(data) {
-        let images = JSON.parse(localStorage.getItem('images'));
-
-        data = { link: data };
-
-        if (!images) {
-            localStorage.setItem('images', JSON.stringify([data]));
-            return;
-        }
-
-        images.push(data);
-        localStorage.setItem('images', JSON.stringify(images));
-    }
-
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = AddImageController;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controllers_AddImageController__ = __webpack_require__(4);
-
-
 class AddImageView {
-
-    constructor() {
-        this.controller = new __WEBPACK_IMPORTED_MODULE_0__controllers_AddImageController__["a" /* AddImageController */]();
-    }
 
     render() {
         let self = this;
@@ -216,17 +159,72 @@ class AddImageView {
             <input type="text" placeholder="link to image" id="addImageInput">
             <button id="addImageButton">Add</button>
         `;
+    }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = AddImageView;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class ImagesController {
+
+    constructor(view, model) {
+        this.view = view;
+        this.model = model;
+    }
+
+    start() {
+        let images = this.model.getImages();
+        this.update(images);
+    }
+
+    getImages() {
+        return this.model.getImages();
+    }
+
+    update(images) {
+        this.view.render(images);
+    }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ImagesController;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class AddImageController {
+
+    constructor(view, model) {
+        this.view = view;
+        this.model = model;
+    }
+
+    start() {
+        let self = this;
+        self.view.render();
 
         let button = document.getElementById('addImageButton');
 
         button.addEventListener('click', function () {
             let input = document.getElementById('addImageInput');
-            self.controller.add(input.value);
+            self.add(input.value);
         });
     }
 
+    add(data) {
+        data = { link: data };
+        this.model.addImage(data);
+    }
+
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = AddImageView;
+/* harmony export (immutable) */ __webpack_exports__["a"] = AddImageController;
 
 
 /***/ })

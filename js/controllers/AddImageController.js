@@ -1,24 +1,25 @@
-import { AddImageView } from '../views/AddImageView';
-
 export class AddImageController {
 
+    constructor(view, model) {
+        this.view = view;
+        this.model = model;
+    }
+
     start() {
-        let imageView = new AddImageView();
-        imageView.render();
+        let self = this;
+        self.view.render();
+
+        let button = document.getElementById('addImageButton');
+        
+        button.addEventListener('click', function () {
+            let input = document.getElementById('addImageInput');
+            self.add(input.value);
+        });
     }
 
     add(data) {
-        let images = JSON.parse(localStorage.getItem('images'));
-
         data = { link: data };
-
-        if(!images) {
-            localStorage.setItem('images', JSON.stringify([data]));
-            return;
-        }
-
-        images.push(data);
-        localStorage.setItem('images', JSON.stringify(images));
+        this.model.addImage(data);
     }
 
 }
