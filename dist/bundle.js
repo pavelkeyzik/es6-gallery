@@ -14728,7 +14728,11 @@ class Image {
 
     constructor(link) {
         this.link = link;
+<<<<<<< HEAD
         this.subject = new __WEBPACK_IMPORTED_MODULE_0_rxjs_Rx___default.a.BehaviorSubject('');
+=======
+        this.subject = new __WEBPACK_IMPORTED_MODULE_0_rxjs_Rx___default.a.BehaviorSubject('App runned...');
+>>>>>>> 98791b42c41a752bbb69f19b05203cd24ec4ef4d
         this.images = JSON.parse(localStorage.getItem('images')) || [];
     }
 
