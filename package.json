@@ -19,6 +19,7 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
-    "babel-loader": "^7.1.2"
+    "babel-loader": "^7.1.2",
+    "rxjs": "^5.5.6"
   }
 }
