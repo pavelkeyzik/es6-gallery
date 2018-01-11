@@ -6,16 +6,12 @@ export class ImagesController {
     }
 
     start() {
-        let images = this.model.getImages();
-        this.update(images);
+        this.view.render(this.getImages());
+        this.model.subject.subscribe(data => this.view.render(this.getImages()));
     }
 
     getImages() {
         return this.model.getImages();
-    }
-
-    update(images) {
-        this.view.render(images);
     }
     
 }
