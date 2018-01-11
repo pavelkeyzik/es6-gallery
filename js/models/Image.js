@@ -1,4 +1,4 @@
-require('rxjs/Rx');
+import Rx from 'rxjs/Rx';
 
 export class Image {
 

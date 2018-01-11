@@ -14720,13 +14720,15 @@ addImageCtrl.start();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Rx__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Rx__);
+
 
 class Image {
 
     constructor(link) {
         this.link = link;
-        this.subject = new Rx.BehaviorSubject('');
+        this.subject = new __WEBPACK_IMPORTED_MODULE_0_rxjs_Rx___default.a.BehaviorSubject('');
         this.images = JSON.parse(localStorage.getItem('images')) || [];
     }
 
