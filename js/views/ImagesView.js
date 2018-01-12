@@ -1,14 +1,21 @@
+var _ = require('lodash');
+
 export class ImagesView {
 
-    render(images) {        
-        let block = document.getElementById('imagesView');
-        let templateString = '';
+    render(images) {
+        
+        fetch('tmp/imagesView.html', {
+            method: 'GET'
+        })
+        .then(response => response.text())
+        .then(data => {
+            let templateFn = _.template(data);
+            let block = document.getElementById('imagesView');
 
-        for(let item of images) {
-            templateString += `<li>${ item.link }</li>`;
-        }
-
-        block.innerHTML = templateString;
+            block.innerHTML = templateFn( { 'data': images } );
+        })
+        .catch(error => console.log(error));
+        
     }
 
 }
