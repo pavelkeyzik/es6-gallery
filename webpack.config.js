@@ -22,5 +22,14 @@ module.exports = {
             loader: 'babel-loader'
         }]
 
+    },
+    
+    devServer: {
+        host: 'localhost',
+        port: 4200,
+        contentBase: 'dist',
+        watchOptions: {
+            aggregateTimeout: 300
+        }
     }
 };
