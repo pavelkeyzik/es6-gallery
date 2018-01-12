@@ -36071,6 +36071,11 @@ class AddImageView {
         addImageView.innerHTML = `
             <input type="text" placeholder="link to image" id="addImageInput">
             <button id="addImageButton">Add</button>
+            <div id="onDrop" class="drag dragleave">
+                <i class="material-icons">photo_camera</i>
+                <div class="drag__title">Отпустите мышку, чтобы начать загрузку</div>
+                <div class="drag__description">Максимальный размер файла и бла-бла-бла...</div>
+            </div>
         `;
     }
 
@@ -36120,10 +36125,27 @@ class AddImageController {
         self.view.render();
 
         let button = document.getElementById('addImageButton');
+        let addImage = document.getElementById('addImage');
+        let onDrop = document.getElementById('onDrop');
 
         button.addEventListener('click', function () {
             let input = document.getElementById('addImageInput');
             self.add(input.value);
+        });
+
+        addImage.addEventListener('dragover', function (event) {
+            event.preventDefault();
+            onDrop.classList.replace('dragleave', 'dragenter');
+        });
+
+        addImage.addEventListener('drop', function (event) {
+            event.preventDefault();
+            console.log(event.dataTransfer.files[0]);
+            onDrop.classList.replace('dragenter', 'dragleave');
+        });
+
+        addImage.addEventListener('dragleave', function (event) {
+            onDrop.classList.replace('dragenter', 'dragleave');
         });
     }
 
@@ -36138,3 +36160,4 @@ class AddImageController {
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=bundle.js.map
