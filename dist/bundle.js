@@ -36076,6 +36076,7 @@ class AddImageView {
                 <div class="drag__title">Отпустите мышку, чтобы начать загрузку</div>
                 <div class="drag__description">Максимальный размер файла и бла-бла-бла...</div>
             </div>
+            <input type="file" id="fileAttach" hidden>
         `;
     }
 
@@ -36140,7 +36141,8 @@ class AddImageController {
 
         addImage.addEventListener('drop', function (event) {
             event.preventDefault();
-            console.log(event.dataTransfer.files[0]);
+            console.log(event.dataTransfer.files);
+            document.getElementById('fileAttach').files = event.dataTransfer.files;
             onDrop.classList.replace('dragenter', 'dragleave');
         });
 

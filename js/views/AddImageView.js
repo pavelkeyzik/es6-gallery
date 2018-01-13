@@ -13,6 +13,7 @@ export class AddImageView {
                 <div class="drag__title">Отпустите мышку, чтобы начать загрузку</div>
                 <div class="drag__description">Максимальный размер файла и бла-бла-бла...</div>
             </div>
+            <input type="file" id="fileAttach" hidden>
         `;        
     }
 

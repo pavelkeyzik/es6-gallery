@@ -25,7 +25,8 @@ export class AddImageController {
 
         addImage.addEventListener('drop', function(event) {
             event.preventDefault();
-            console.log(event.dataTransfer.files[0]);
+            console.log(event.dataTransfer.files);
+            document.getElementById('fileAttach').files = event.dataTransfer.files;
             onDrop.classList.replace('dragenter', 'dragleave');
         });
 
