@@ -9,7 +9,7 @@ export class Image {
     }
 
     addImage(data) {
-        this.images.push(data);
+        this.images.unshift(data);
         localStorage.setItem('images', JSON.stringify(this.images));
         this.subject.next();
     }
