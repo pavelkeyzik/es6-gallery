@@ -15,7 +15,6 @@ export class ImagesView {
             block.innerHTML = templateFn( { 'data': images } );
         })
         .catch(error => console.log(error));
-        
     }
 
 }
